@@ -1,6 +1,6 @@
 # Neutrino Event Classification
 
-An academic machine-learning project by Chloe Lin for PHAS0056 Practical Machine Learning for Physicists at University College London (2026).
+An academic machine-learning project by Chloe Lin  at University College London (2026).
 
 This project explores convolutional neural networks for simulated neutrino interactions in a NOvA-like detector. Each event contains two 100 × 80 detector projections. The selected dataset contains 21,016 events from three HDF5 files.
 
