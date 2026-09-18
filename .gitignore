@@ -1,0 +1,13 @@
+data/
+*.h5
+*.hdf5
+.venv/
+venv/
+__pycache__/
+.ipynb_checkpoints/
+.env
+*.keras
+*.hdf5
+checkpoints/
+.DS_Store
+Thumbs.db
