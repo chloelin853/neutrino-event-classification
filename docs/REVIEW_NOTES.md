@@ -25,4 +25,3 @@ The original supplied notebook remains unchanged outside this repository. The re
 - Confirm attribution and permission to share any course-provided starter material.
 - Keep the dataset excluded unless redistribution rights are established.
 - Choose a licence only after ownership and sharing conditions are clear.
-- Change visibility only when Chloe explicitly requests public release.
