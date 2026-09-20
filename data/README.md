@@ -8,4 +8,4 @@ The guided notebook runs without this dataset, using aggregate confusion-matrix 
 
 Expected entries include `cvnmap` and `neutrino/{interaction,nuenergy,lepenergy,finalstate}`. Record the exact selected filenames locally for reproducibility. Do not commit them or event-level exports.
 
-Existing historical notebook outputs may contain detector views. Keep the repository private while confirming whether those outputs and course-provided starter material can be shared.
+Existing historical notebook outputs may contain detector views. Redistribution permission for these outputs and any course-provided starter material has not been established.
