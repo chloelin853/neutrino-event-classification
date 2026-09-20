@@ -1,60 +1,62 @@
 # Neutrino Event Classification
 
-An academic machine-learning project by Chloe Lin  at University College London (2026).
+**Chloe Lin · University College London · Python scientific computing**
 
-This project explores convolutional neural networks for simulated neutrino interactions in a NOvA-like detector. Each event contains two 100 × 80 detector projections. The selected dataset contains 21,016 events from three HDF5 files.
+**When 88% accuracy hides missed background events.**
 
-## Status
+Developed TensorFlow/Keras CNNs for simulated neutrino interactions and investigated how class imbalance changes signal detection and background rejection (2026).
 
-Private working draft. The notebook preserves historical outputs from the coursework; these have not been regenerated for this repository. The evaluation checks in [REVIEW_NOTES.md](REVIEW_NOTES.md) must be addressed before describing the results as independently reproduced. Repository visibility must remain private until Chloe chooses to change it.
+![Historical test-set counts, redrawn as row-normalised confusion matrices. Additional weighted training improves background rejection at the cost of signal recall.](figures/classification_comparison.png)
 
-## Investigations
+*Historical test-set counts, redrawn as row-normalised confusion matrices. Additional weighted training improves background rejection at the cost of signal recall.*
 
-- Muon-neutrino charged-current signal classification and class imbalance.
-- Signal efficiency and background acceptance across energy, interaction type, and final-state categories.
-- Neutrino energy and lepton-to-neutrino energy-ratio regression.
-- Muon/electron neutrino flavour classification.
-- Three-class and binary interaction-mode classification.
+**[Start the guided notebook](notebooks/main_analysis.ipynb)** · [Detailed logbooks](notebooks/logbooks) · [Presentation provenance](docs/PRESENTATION_NOTES.md)
 
-## Methods
+## What this demonstrates
 
-Python, TensorFlow/Keras, NumPy, h5py, scikit-learn, and Matplotlib. CNNs use convolution and max pooling, dense layers, dropout, and task-specific outputs and losses. Selected experiments use early stopping and class weighting.
+- HDF5 processing and two-channel CNN inputs from 21,016 simulated events.
+- Model evaluation beyond overall accuracy, including class-wise recall and ROC analysis.
+- Interpreting performance across energy ranges and interaction topologies.
 
-## Historical signal-classifier results
-
-The saved evaluation uses 3,153 test events from a stratified 70/15/15 training/validation/test split.
-
-| Metric | Before additional weighted training | After additional weighted training |
+| Saved evaluation | Unweighted | After additional weighted training |
 |---|---:|---:|
-| Signal recall | 98.7% | 72.4% |
-| Background rejection | 8.3% | 91.1% |
 | Balanced accuracy | 53.5% | 81.8% |
+| Background rejection | 8.3% | 91.1% |
+| Signal recall | 98.7% | 72.4% |
 
-The saved ROC plot reports AUC = 0.879. Balanced accuracy is calculated from the saved confusion matrices. The weighted stage continues training the existing network, so this is not a controlled comparison between independently initialised models.
+The saved ROC curve reports **AUC 0.879** on 3,153 test events. These are historical outputs, not newly retrained results. The same model continued training with class weights; this is not an isolated causal comparison of weighting alone.
 
-## Files
+## Data access and evaluation status
 
-- `neutrino_classification.ipynb`: working copy with historical outputs and a portable data-location setting.
-- `requirements.txt`: direct notebook dependencies (not a tested, version-pinned environment).
-- `REVIEW_NOTES.md`: evaluation and reproducibility work remaining.
+**The professor-provided dataset is not included. Redistribution permission is unknown.** The guided notebook runs without it, reconstructing aggregate metrics from saved confusion-matrix counts. It does not train a CNN or reproduce the AUC from raw scores.
 
-## Data
+See [data access instructions](data/README.md) for authorised local use and [evaluation review notes](docs/REVIEW_NOTES.md) for the remaining training and validation corrections. Existing logbook outputs remain private while permissions are clarified.
 
-The dataset is not included. Obtain the course-provided HDF5 data through the authorised course source. Place the files in a local `data/` folder alongside the notebook, or set `NEUTRINO_DATA_DIR` to the directory containing them. HDF5 files are excluded from Git by `.gitignore`.
+## Run the guided notebook
 
-Expected HDF5 entries include `cvnmap` and the `neutrino` metadata group, including `interaction`, `nuenergy`, `lepenergy`, and `finalstate`.
-
-## Local setup
-
-Create and activate a Python virtual environment, then run:
+From the repository root, create and activate a Python virtual environment, then:
 
 ```sh
-python -m pip install -r requirements.txt
-python -m jupyter lab
+python -m pip install -r requirements-demo.txt
+python -m jupyter lab notebooks/main_analysis.ipynb
 ```
 
-Open the notebook with its containing directory as the working directory. Inspect the saved results first. Resolve the review notes before attempting a clean end-to-end training run; the current draft is not represented as fully reproducible.
+The short notebook has saved outputs for browsing and runnable cells that regenerate the opening figure. It supports a working directory of either the repository root or `notebooks/`. The original project dependencies are listed separately in `requirements.txt`.
 
-## Attribution
+## Repository map
 
-This repository is coursework, not an official NOvA collaboration project. The notebook includes assignment text, dataset definitions, and introductory material; the exact attribution of course-provided starter material should be confirmed before public release. No open-source licence has been applied at this draft stage.
+```text
+README.md
+notebooks/
+  main_analysis.ipynb      # Start here
+  logbooks/               # Original detailed work
+figures/                  # Generated README figure
+docs/                     # Review and provenance notes
+requirements-demo.txt      # Guided notebook
+requirements.txt           # Original project dependencies
+```
+
+
+## Status and attribution
+
+Private working draft; visibility will change only at Chloe's request. The guided notebook is a new presentation of the project, and does not validate all historical results. Original sources and teaching-material references remain in the logbooks. Confirm sharing conditions before publication; no open-source licence has been selected.
