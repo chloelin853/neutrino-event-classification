@@ -12,25 +12,49 @@ Developed TensorFlow/Keras CNNs for simulated neutrino interactions and investig
 
 **[Start the guided notebook](notebooks/main_analysis.ipynb)** · [Detailed logbooks](notebooks/logbooks) · [Presentation provenance](docs/PRESENTATION_NOTES.md)
 
-## What this demonstrates
+## Selected results
 
-- HDF5 processing and two-channel CNN inputs from 21,016 simulated events.
-- Model evaluation beyond overall accuracy, including class-wise recall and ROC analysis.
-- Interpreting performance across energy ranges and interaction topologies.
+### Why is overall accuracy misleading here?
+
+The saved test set contains **2,781 signal events and 372 background events**. The unweighted classifier reaches approximately **88% accuracy**, yet identifies only **31 of 372 background events** correctly. Predicting the majority class can therefore look successful while failing at background rejection.
+
+The opening figure compares the saved confusion matrices, normalised within each true class:
 
 | Saved evaluation | Unweighted | After additional weighted training |
 |---|---:|---:|
-| Balanced accuracy | 53.5% | 81.8% |
-| Background rejection | 8.3% | 91.1% |
-| Signal recall | 98.7% | 72.4% |
+| Balanced accuracy | **53.5%** | **81.8%** |
+| Background rejection | **8.3%** | **91.1%** |
+| Signal recall | **98.7%** | **72.4%** |
 
-The saved ROC curve reports **AUC 0.879** on 3,153 test events. These are historical outputs, not newly retrained results. The same model continued training with class weights; this is not an isolated causal comparison of weighting alone.
+The later evaluation rejects substantially more background, at the cost of signal recall. **Class-wise metrics expose this trade-off; overall accuracy alone conceals it.** The same network continued training with class weights, so this comparison does not isolate the effect of weighting from additional training.
 
-## Data access and evaluation status
+### How well does the classifier separate signal and background?
 
-**The professor-provided dataset is not included. Redistribution permission is unknown.** The guided notebook runs without it, reconstructing aggregate metrics from saved confusion-matrix counts. It does not train a CNN or reproduce the AUC from raw scores.
+The saved ROC curve reports **AUC 0.879** on **3,153 test events**, describing separation across classification thresholds. The confusion-matrix metrics above describe the saved operating point. These are historical coursework outputs, not results from a new training run.
 
-See [data access instructions](data/README.md) for authorised local use and [evaluation review notes](docs/REVIEW_NOTES.md) for the remaining training and validation corrections. Existing logbook outputs remain private while permissions are clarified.
+### Supporting investigations
+
+The original [training logbook](notebooks/logbooks/neutrino_classification.ipynb) also examines performance across energy ranges and interaction categories, plus energy regression, flavour classification and interaction-mode classification. These extensions explore where the models struggle; they are not presented as equivalent or independently validated headline results.
+
+## My contribution
+
+This was an individual coursework project. I prepared **21,016 simulated events** from HDF5 files, reshaping each pair of **100 × 80 detector views** into a two-channel CNN input. Using Python and TensorFlow/Keras, I built and trained CNNs for classification and regression, prepared training/validation/test splits, explored class weighting and loss functions, used early stopping in selected models, and evaluated results with task-appropriate metrics.
+
+The shorter guided notebook and opening figure are later portfolio additions. Their relationship to the original work and AI-assisted preparation is documented in [presentation notes](docs/PRESENTATION_NOTES.md).
+
+## Limitations
+
+- These saved results are exploratory. The historical pipeline uses full-dataset pixel normalisation; a corrected evaluation should fit preprocessing on training data only.
+- A controlled weighting comparison needs fresh models with the same split and training budget. The saved comparison uses continued training.
+- Some supporting experiments need corrections to sample-weight alignment and model reuse before their metrics support stronger conclusions. Details are in [evaluation review notes](docs/REVIEW_NOTES.md).
+- Overlapping event topologies may contribute to weaker performance, but these experiments do not establish an intrinsic detector-information limit. Model design, training and data quality are also possible explanations.
+- The guided notebook reconstructs metrics from aggregate confusion-matrix counts. It does not retrain a CNN or reproduce AUC from raw prediction scores.
+
+## Acknowledgements and data access
+
+The simulated detector dataset was supplied by the project professor for University College London coursework. **The dataset is not included; redistribution permission has not been established.** Original assignment material and references remain in the detailed logbook; course-provided material is not claimed as an original contribution.
+
+The guided notebook runs without the dataset. See [data access instructions](data/README.md) for authorised local use. Sharing permission for historical detector-image outputs and any course-provided starter material is also unconfirmed.
 
 ## Run the guided notebook
 
@@ -50,13 +74,9 @@ README.md
 notebooks/
   main_analysis.ipynb      # Start here
   logbooks/               # Original detailed work
+data/                     # Access instructions; no dataset
 figures/                  # Generated README figure
 docs/                     # Review and provenance notes
 requirements-demo.txt      # Guided notebook
 requirements.txt           # Original project dependencies
 ```
-
-
-## Status and attribution
-
-Private working draft; visibility will change only at Chloe's request. The guided notebook is a new presentation of the project, and does not validate all historical results. Original sources and teaching-material references remain in the logbooks. Confirm sharing conditions before publication; no open-source licence has been selected.
